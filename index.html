@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Wasi Kush Nutrivibe: Alimentos nutritivos con cushuro para familias peruanas, combatiendo la malnutrición con el CushuPower Pack">
+  <title>Wasi Kush Nutrivibe - CushuPower Pack</title>
+  <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body {
+      font-family: 'Quicksand', sans-serif;
+      background-color: #FFFFFF; /* Blanco */
+      margin: 0;
+      padding: 0;
+    }
+    .fade-in {
+      animation: fadeIn 1.5s ease-in-out;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    .hover-scale {
+      transition: transform 0.3s ease;
+    }
+    .hover-scale:hover {
+      transform: scale(1.05);
+    }
+    .carousel {
+      display: flex;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      -webkit-overflow-scrolling: touch;
+      scroll-behavior: smooth;
+      padding: 0;
+      justify-content: center;
+      gap: 0.2rem;
+    }
+    .carousel-item {
+      flex: none;
+      scroll-snap-align: center;
+      width: 100%;
+      max-width: 260px;
+      margin: 0;
+      padding: 0.4rem;
+      background-color: #FFFFFF;
+      border-radius: 0.4rem;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      align-items: center;
+      text-align: center;
+    }
+    @media (min-width: 768px) {
+      .carousel-item {
+        width: 21%;
+      }
+    }
+    .nutrition-table {
+      border-collapse: collapse;
+      width: 100%;
+      margin-top: 0.2rem;
+      display: none;
+      font-size: 1.1rem;
+      font-weight: 500;
+    }
+    .nutrition-table th, .nutrition-table td {
+      border: 1px solid #8B4513; /* Marrón */
+      padding: 0.25rem;
+      text-align: left;
+      color: #000000; /* Negro */
+    }
+    .product-img {
+      object-fit: contain;
+      width: 100%;
+      height: 150px;
+      border-radius: 0.4rem;
+    }
+    .logo-img {
+      border-radius: 50%;
+      overflow: hidden;
+    }
+    .nutrition-btn {
+      background-color: #8B4513; /* Marrón */
+      color: #FFFFFF; /* Blanco */
+      padding: 0.3rem 0.6rem;
+      border-radius: 0.3rem;
+      cursor: pointer;
+      transition: background-color 0.3s, transform 0.3s;
+    }
+    .nutrition-btn:hover {
+      background-color: #6F2F0F; /* Marrón más oscuro */
+      transform: scale(1.05);
+    }
+    .show-table .nutrition-table {
+      display: table;
+    }
+    h2 {
+      color: #FFC107; /* Amarillo */
+    }
+    /* Fondos para mejor contraste */
+    #problematica {
+      background-color: #000000; /* Negro */
+    }
+    #productos {
+      background-color: #8B4513; /* Marrón */
+    }
+    #contacto, #donde-comprar {
+      background-color: rgba(0, 0, 0, 0.85); /* Negro con opacidad */
+      color: #FFFFFF; /* Blanco */
+    }
+    #beneficios {
+      background-color: #4CAF50; /* Verde */
+    }
+    #combo {
+      background-color: #8B4513; /* Marrón */
+    }
+    label, input, textarea {
+      color: #000000; /* Negro */
+    }
+    #contacto label, #contacto input, #contacto textarea {
+      color: #FFFFFF; /* Blanco */
+    }
+    #contacto input, #contacto textarea {
+      background-color: rgba(255, 255, 255, 0.2);
+      border-color: #FFC107; /* Amarillo */
+    }
+    #contacto input:focus, #contacto textarea:focus {
+      outline: none;
+      border-color: #4CAF50; /* Verde */
+      box-shadow: 0 0 5px #4CAF50;
+    }
+    /* Estilos para beneficios con fondo negro y texto más grande */
+    .benefit-item {
+      position: relative;
+      min-height: 150px;
+      background-size: cover;
+      background-position: center;
+      padding: 0.4rem;
+      border-radius: 0.4rem;
+      color: #FFFFFF; /* Blanco */
+      text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+    }
+    .benefit-item h3 {
+      font-size: 1.7rem;
+      position: relative;
+      z-index: 1;
+    }
+    .benefit-item p {
+      font-size: 1rem;
+      position: relative;
+      z-index: 1;
+    }
+    .benefit-item::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.6); /* Negro con opacidad */
+      border-radius: 0.4rem;
+      z-index: 0;
+    }
+    /* Estilo para Problemática con cuadro negro ajustado */
+    #problematica .container {
+      background-color: rgba(0, 0, 0, 0.7); /* Negro con opacidad */
+      padding: 0.8rem;
+      border-radius: 0.4rem;
+      color: #FFFFFF; /* Blanco */
+      text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+      width: 100%;
+      box-sizing: border-box;
+      margin: 0 auto;
+      text-align: center;
+      max-width: 800px;
+    }
+    #problematica p {
+      font-size: 1.3rem;
+    }
+    /* Estilo para Hero Section ajustado */
+    #inicio {
+      position: relative;
+      height: 280px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      background-image: url('2.png');
+      background-size: cover;
+      background-position: center;
+    }
+    #inicio .content {
+      padding: 0.4rem;
+      width: 80%;
+      max-width: 800px;
+    }
+    #inicio .text h2 {
+      font-size: 4rem;
+      font-weight: 700;
+      color: #FFC107; /* Amarillo */
+      margin-bottom: 1rem; /* Mayor separación */
+      text-transform: uppercase;
+      letter-spacing: 2px;
+    }
+    #inicio .text p {
+      font-size: 1.5rem; /* Letras más grandes */
+      color: #000000; /* Negro */
+      margin-bottom: 0.5rem;
+      font-weight: 400;
+    }
+    /* Estilo para CushuPower Pack con imagen a la izquierda y texto a la derecha */
+    #combo .container {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0.4rem;
+    }
+    #combo .image {
+      flex: 1;
+      margin-right: 0.4rem;
+    }
+    #combo .image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 0.4rem;
+    }
+    #combo .text {
+      flex: 1;
+      padding: 0.6rem;
+      background-color: rgba(255, 255, 255, 0.9);
+      border-radius: 0.4rem;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    }
+    #combo .text h2 {
+      font-size: 2rem;
+      margin-bottom: 0.2rem;
+      color: #8B4513; /* Marrón */
+    }
+    #combo .text p {
+      font-size: 1.1rem;
+      margin-bottom: 0.2rem;
+    }
+    #combo .text ul {
+      font-size: 1rem;
+      margin-bottom: 0.2rem;
+      padding-left: 1rem;
+    }
+    #combo .text strong {
+      color: #4CAF50; /* Verde */
+    }
+    /* Estilo para Contacto y Dónde Comprar centrados */
+    #contacto, #donde-comprar {
+      text-align: center;
+    }
+    #contacto {
+      padding: 0.8rem 0;
+    }
+    #contacto .container {
+      max-width: 480px;
+      padding: 0.8rem;
+      margin: 0 auto;
+    }
+    #contacto form {
+      display: flex;
+      flex-direction: column;
+      gap: 0.3rem;
+    }
+    #contacto .mb-0.5 {
+      margin-bottom: 0.3rem;
+    }
+    #contacto button {
+      background-color: #4CAF50; /* Verde */
+      padding: 0.5rem 0.8rem;
+      font-size: 1rem;
+      font-weight: 500;
+      border-radius: 0.3rem;
+    }
+    #contacto button:hover {
+      background-color: #388E3C; /* Verde más oscuro */
+    }
+    #donde-comprar {
+      padding: 0.8rem 0;
+    }
+    #donde-comprar .container {
+      max-width: 600px;
+      padding: 0.8rem;
+      margin: 0 auto;
+    }
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <header class="bg-000000 text-FFFFFF py-1.5 fade-in">
+    <div class="container mx-auto px-2 flex justify-between items-center">
+      <div>
+        <img src="logo.png" alt="Wasi Kush Nutrivibe Logo" class="h-10 logo-img">
+        <h1 class="text-base font-bold">Wasi Kush Nutrivibe</h1>
+      </div>
+      <nav>
+        <ul class="flex space-x-1.5">
+          <li><a href="#inicio" class="hover:underline text-FFFFFF">Inicio</a></li>
+          <li><a href="#problematica" class="hover:underline text-FFFFFF">Problemática</a></li>
+          <li><a href="#productos" class="hover:underline text-FFFFFF">Productos</a></li>
+          <li><a href="#combo" class="hover:underline text-FFFFFF">CushuPower Pack</a></li>
+          <li><a href="#beneficios" class="hover:underline text-FFFFFF">Beneficios</a></li>
+          <li><a href="#donde-comprar" class="hover:underline text-FFFFFF">Dónde Comprar</a></li>
+          <li><a href="#contacto" class="hover:underline text-FFFFFF">Contacto</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Hero Section (Banner) -->
+  <section id="inicio" class="bg-cover bg-center fade-in" style="background-image: url('2.png')">
+    <div class="content">
+      <div class="text">
+        <h2>Nutrición para tu Familia</h2>
+        <p>Descubre el poder del cushuro con Wasi Kush Nutrivibe</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Problemática Section -->
+  <section id="problematica" class="py-4 bg-000000 fade-in">
+    <div class="container mx-auto px-2">
+      <h2 class="text-xl font-bold text-center mb-1">Problemática</h2>
+      <div class="container mx-auto px-2">
+        <p class="text-base text-FFFFFF max-w-3xl mx-auto text-center">
+          ¿Cómo podríamos hacer que algunos miembros de familia encargados de la alimentación del hogar consigan productos alimenticios nutritivos y adecuados, debido a que no cuentan con suficiente tiempo, acceso a alimentos de alto valor nutricional, así como información sobre cómo usarlos?
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Productos Section -->
+  <section id="productos" class="py-4 bg-8B4513 fade-in">
+    <div class="container mx-auto px-2">
+      <h2 class="text-xl font-bold text-center mb-1">Nuestros Productos</h2>
+      <div class="carousel">
+        <div class="carousel-item hover-scale">
+          <img src="gomitas.png" alt="Cushugom - Frasco de Gomitas (30 unidades)" class="product-img">
+          <h3 class="text-lg font-semibold mt-0.5">Cushugom</h3>
+          <p class="text-FFFFFF">Gomitas funcionales con cushuro y frutas, 4 gomitas (20 g) aportan 14 mg de hierro (77% VD), 30 unidades por frasco.</p>
+          <button class="nutrition-btn mt-0.2" onclick="this.parentElement.classList.toggle('show-table')">Ver información nutricional</button>
+          <table class="nutrition-table">
+            <tr><th>Nutriente</th><th>Cantidad</th><th>% VD</th></tr>
+            <tr><td>Energía</td><td>65 kcal</td><td>3%</td></tr>
+            <tr><td>Grasa total</td><td>0.5 g</td><td>1%</td></tr>
+            <tr><td>Grasas saturadas</td><td>0 g</td><td>0%</td></tr>
+            <tr><td>Proteína</td><td>1.5 g</td><td>3%</td></tr>
+            <tr><td>Calcio</td><td>60 mg</td><td>6%</td></tr>
+            <tr><td>Hierro</td><td>14 mg</td><td>77%</td></tr>
+          </table>
+        </div>
+        <div class="carousel-item hover-scale">
+          <img src="galletas.png" alt="Cushucookies - Galletas" class="product-img">
+          <h3 class="text-lg font-semibold mt-0.5">Cushucookies</h3>
+          <p class="text-FFFFFF">Galletas blandas con cushuro y cacao, 3 galletas (40 g) con 8 mg de hierro (44% VD).</p>
+          <button class="nutrition-btn mt-0.2" onclick="this.parentElement.classList.toggle('show-table')">Ver información nutricional</button>
+          <table class="nutrition-table">
+            <tr><th>Nutriente</th><th>Cantidad</th><th>% VD</th></tr>
+            <tr><td>Energía</td><td>150 kcal</td><td>7%</td></tr>
+            <tr><td>Grasa total</td><td>3.5 g</td><td>5%</td></tr>
+            <tr><td>Grasas saturadas</td><td>0.9 g</td><td>5%</td></tr>
+            <tr><td>Proteína</td><td>4.2 g</td><td>8%</td></tr>
+            <tr><td>Calcio</td><td>80 mg</td><td>8%</td></tr>
+            <tr><td>Hierro</td><td>8 mg</td><td>44%</td></tr>
+          </table>
+        </div>
+        <div class="carousel-item hover-scale">
+          <img src="pie.png" alt="Cushupie - Mini Pie" class="product-img">
+          <h3 class="text-lg font-semibold mt-0.5">Cushupie</h3>
+          <p class="text-FFFFFF">Mini pie horneado de cushuro y fruta, 90 g, con 10 mg de hierro (55% VD) y 4 g de fibra.</p>
+          <button class="nutrition-btn mt-0.2" onclick="this.parentElement.classList.toggle('show-table')">Ver información nutricional</button>
+          <table class="nutrition-table">
+            <tr><th>Nutriente</th><th>Cantidad</th><th>% VD</th></tr>
+            <tr><td>Energía</td><td>180 kcal</td><td>9%</td></tr>
+            <tr><td>Grasa total</td><td>4 g</td><td>6%</td></tr>
+            <tr><td>Grasas saturadas</td><td>1.2 g</td><td>6%</td></tr>
+            <tr><td>Proteína</td><td>4 g</td><td>8%</td></tr>
+            <tr><td>Calcio</td><td>110 mg</td><td>11%</td></tr>
+            <tr><td>Hierro</td><td>10 mg</td><td>55%</td></tr>
+          </table>
+        </div>
+        <div class="carousel-item hover-scale">
+          <img src="yogurt.png" alt="Cushuyog - Yogur (1000 ml)" class="product-img">
+          <h3 class="text-lg font-semibold mt-0.5">Cushuyog</h3>
+          <p class="text-FFFFFF">Yogur cremoso con cushuro, 250 ml por porción, aporta 12 mg de hierro (67% VD) y 180 mg de calcio (18% VD), 1000 ml por envase.</p>
+          <button class="nutrition-btn mt-0.2" onclick="this.parentElement.classList.toggle('show-table')">Ver información nutricional</button>
+          <table class="nutrition-table">
+            <tr><th>Nutriente</th><th>Cantidad</th><th>% VD</th></tr>
+            <tr><td>Energía</td><td>120 kcal</td><td>6%</td></tr>
+            <tr><td>Grasa total</td><td>2 g</td><td>3%</td></tr>
+            <tr><td>Grasas saturadas</td><td>0.6 g</td><td>3%</td></tr>
+            <tr><td>Proteína</td><td>6 g</td><td>12%</td></tr>
+            <tr><td>Calcio</td><td>180 mg</td><td>18%</td></tr>
+            <tr><td>Hierro</td><td>12 mg</td><td>67%</td></tr>
+          </table>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CushuPower Pack Section -->
+  <section id="combo" class="py-4 bg-8B4513 fade-in">
+    <div class="container">
+      <div class="image">
+        <img src="paquete.png" alt="CushuPower Pack - Combo Familiar Nutritivo" class="h-full w-full">
+      </div>
+      <div class="text">
+        <h2>CushuPower Pack</h2>
+        <p>
+          El <strong>CushuPower Pack</strong> de Wasi Kush Nutrivibe es un combo semanal diseñado para familias peruanas, presentado en una caja de cartón reciclado tipo lonchera familiar. Incluye por persona por semana:
+        </p>
+        <ul>
+          <li>1 Cushuyog (250 ml)</li>
+          <li>1 Cushupie (90 g)</li>
+          <li>1 porción de Cushugom (12 gomitas, 3 veces por semana)</li>
+          <li>1 Cushucookie (40 g)</li>
+        </ul>
+        <p>
+          <strong>Total de hierro por semana: ~120-130 mg</strong>, ayudando a combatir la anemia de forma práctica y deliciosa.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Beneficios Section -->
+  <section id="beneficios" class="py-4 bg-4CAF50 fade-in">
+    <div class="container mx-auto px-2">
+      <h2 class="text-xl font-bold text-center mb-1">Beneficios del Cushuro</h2>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-0.5">
+        <div class="benefit-item hover-scale" style="background-image: url('https://via.placeholder.com/250x150?text=Hierro');">
+          <h3 class="text-1.7rem font-semibold">Alto en Hierro</h3>
+          <p class="text-sm">Aporta hasta 77% del valor diario de hierro por porción, combatiendo la anemia.</p>
+        </div>
+        <div class="benefit-item hover-scale" style="background-image: url('https://via.placeholder.com/250x150?text=Calcio');">
+          <h3 class="text-1.7rem font-semibold">Rico en Calcio</h3>
+          <p class="text-sm">Fortalece los huesos con hasta 18% del valor diario de calcio.</p>
+        </div>
+        <div class="benefit-item hover-scale" style="background-image: url('https://via.placeholder.com/250x150?text=Fácil');">
+          <h3 class="text-1.7rem font-semibold">Fácil y Sabroso</h3>
+          <p class="text-sm">Productos prácticos para familias con poco tiempo, sin sacrificar sabor.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Dónde Comprar Section -->
+  <section id="donde-comprar" class="py-4 bg-000000 bg-opacity-85 fade-in">
+    <div class="container">
+      <h2 class="text-xl font-bold text-center mb-1">¿Dónde Comprar?</h2>
+      <p class="text-base text-FFFFFF max-w-3xl mx-auto">
+        Adquiere el CushuPower Pack de Wasi Kush Nutrivibe en mercados locales, tiendas orgánicas y supermercados seleccionados en Perú. ¡Contáctanos para más información!
+      </p>
+    </div>
+  </section>
+
+  <!-- Contacto Section -->
+  <section id="contacto" class="py-4 bg-000000 fade-in">
+    <div class="container">
+      <h2 class="text-xl font-bold text-center mb-1">Contáctanos</h2>
+      <form>
+        <div class="mb-0.5">
+          <label for="name" class="block text-FFFFFF">Nombre</label>
+          <input type="text" id="name" class="w-full p-1 border rounded-lg hover:border-8B4513 bg-white bg-opacity-20" placeholder="Tu nombre">
+        </div>
+        <div class="mb-0.5">
+          <label for="email" class="block text-FFFFFF">Correo Electrónico</label>
+          <input type="email" id="email" class="w-full p-1 border rounded-lg hover:border-8B4513 bg-white bg-opacity-20" placeholder="Tu correo">
+        </div>
+        <div class="mb-0.5">
+          <label for="message" class="block text-FFFFFF">Mensaje</label>
+          <textarea id="message" class="w-full p-1 border rounded-lg hover:border-8B4513 bg-white bg-opacity-20" rows="2" placeholder="Tu mensaje"></textarea>
+        </div>
+        <button type="submit" class="bg-4CAF50 text-FFFFFF py-0.5 px-2 rounded-lg hover-scale">Enviar</button>
+      </form>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="bg-000000 text-FFFFFF py-1.5 fade-in">
+    <div class="container mx-auto px-2 text-center">
+      <p>© 2025 Wasi Kush Nutrivibe. Todos los derechos reservados. Última actualización: Domingo, 13 de julio de 2025, 8:57 AM -05</p>
+    </div>
+  </footer>
+
+  <script>
+    // Simple carousel scroll for products
+    const carousel = document.querySelector('.carousel');
+    carousel.addEventListener('wheel', (e) => {
+      e.preventDefault();
+      carousel.scrollLeft += e.deltaY;
+    });
+  </script>
+</body>
+</html>
